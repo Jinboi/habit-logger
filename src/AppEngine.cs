@@ -12,13 +12,13 @@ internal class AppEngine
         using (var connection = DbContext.CreateConnection())
         {
             connection.Open();
-            var tableCmd = connection.CreateCommand();
-            tableCmd.CommandText =
+            var selectAllCmd = connection.CreateCommand();
+            selectAllCmd.CommandText =
                 $"SELECT * FROM drinking_water";
 
             List<DrinkingWater> tableData = new();
 
-            SqliteDataReader reader = tableCmd.ExecuteReader();
+            SqliteDataReader reader = selectAllCmd.ExecuteReader();
 
             if (reader.HasRows)
             {
@@ -57,11 +57,15 @@ internal class AppEngine
         using (var connection = DbContext.CreateConnection())
         {
             connection.Open();
-            var tableCmd = connection.CreateCommand();
-            tableCmd.CommandText =
-            $"INSERT INTO drinking_water (date, quantity) VALUES('{date}', {quantity})";
+            var insertCmd = connection.CreateCommand();
+            insertCmd.CommandText =
+            $"INSERT INTO drinking_water (date, quantity) VALUES(@date, @quantity)";
 
-            tableCmd.ExecuteNonQuery();
+            // Added Parameterized Queries
+            insertCmd.Parameters.AddWithValue("@date", date);
+            insertCmd.Parameters.AddWithValue("@quantity", quantity);
+
+            insertCmd.ExecuteNonQuery();
 
             connection.Close();
         }
@@ -76,10 +80,13 @@ internal class AppEngine
         using (var connection = DbContext.CreateConnection())
         {
             connection.Open();
-            var tableCmd = connection.CreateCommand();
-            tableCmd.CommandText = $"DELETE from drinking_water WHERE Id = '{recordId}'";
+            var deleteCmd = connection.CreateCommand();
+            deleteCmd.CommandText = $"DELETE from drinking_water WHERE Id = @id";
 
-            int rowCount = tableCmd.ExecuteNonQuery();
+            // Added Parameterized Queries
+            deleteCmd.Parameters.AddWithValue("@id", recordId);
+
+            int rowCount = deleteCmd.ExecuteNonQuery();
 
             if (rowCount == 0)
             {
@@ -103,7 +110,11 @@ internal class AppEngine
             connection.Open();
 
             var checkCmd = connection.CreateCommand();
-            checkCmd.CommandText = $"SELECT EXISTS(SELECT 1 FROM drinking_water WHERE Id = {recordId})";
+            checkCmd.CommandText = $"SELECT EXISTS(SELECT 1 FROM drinking_water WHERE Id = @id";
+
+            // Added Parameterized Queries
+            checkCmd.Parameters.AddWithValue("@id", recordId);
+
             int checkQuery = Convert.ToInt32(checkCmd.ExecuteScalar());
 
             if (checkQuery == 0)
@@ -117,10 +128,15 @@ internal class AppEngine
 
             int quantity = UserInputHelper.GetNumberInput("\n\nPlease insert number of glasses or other measure of your choice (no decimals allowed)\n\n");
 
-            var tableCmd = connection.CreateCommand();
-            tableCmd.CommandText = $"UPDATE drinking_water SET date = '{date}', quantity = {quantity} WHERE Id = {recordId}";
+            var updateCmd = connection.CreateCommand();
+            updateCmd.CommandText = $"UPDATE drinking_water SET date = @date, quantity = @quantity WHERE Id = @id";
 
-            tableCmd.ExecuteNonQuery();
+            // Added Parameterized Queries
+            updateCmd.Parameters.AddWithValue("@date", date);
+            updateCmd.Parameters.AddWithValue("@quantity", quantity);
+            updateCmd.Parameters.AddWithValue("@id", recordId);
+
+            updateCmd.ExecuteNonQuery();
 
             connection.Close();
         }
