@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using HabitLogger.Models;
+using Microsoft.Data.Sqlite;
+using System.Globalization;
 
 namespace HabitLogger;
 internal class UserInputHelper
@@ -37,4 +39,38 @@ internal class UserInputHelper
 
         return finalInput;
     }
+    internal static List<Habit> GetAllHabits()
+    {
+        List<Habit> habits = new();
+
+        // Create an instance of DbContext
+        var dbContext = new DbContext();
+
+        using (var connection = dbContext.CreateConnection())
+        {
+            connection.Open();
+            var selectCmd = connection.CreateCommand();
+            selectCmd.CommandText = $"SELECT * FROM habits";
+
+            SqliteDataReader reader = selectCmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    habits.Add(new Habit
+                    {
+                        Id = reader.GetInt32(0),
+                        Name = reader.GetString(1),
+                        UnitOfMeasurement = reader.GetString(2)
+                    });
+                }
+            }
+
+            connection.Close();
+        }
+
+        return habits;
+    }
+
 }

@@ -14,6 +14,8 @@ internal interface UserInterface
             Console.WriteLine("Type 2 to Insert Record.");
             Console.WriteLine("Type 3 to Delete Record.");
             Console.WriteLine("Type 4 to Update Record.");
+            Console.WriteLine("Type 5 to Add New Habit.");
+
             Console.WriteLine("------------------------------------------------------\n");
 
             string command = Console.ReadLine();
@@ -36,6 +38,9 @@ internal interface UserInterface
                     break;
                 case "4":
                     AppEngine.Update();
+                    break;
+                case "5":
+                    AppEngine.AddNewHabit();
                     break;
 
                 default:
