@@ -28,19 +28,19 @@ internal interface UserInterface
                     Environment.Exit(0);
                     break;
                 case "1":
-                    AppEngine.GetAllRecords();
+                    HabitLoggerController.GetAllRecords();
                     break;
                 case "2":
-                    AppEngine.Insert();
+                    HabitLoggerController.Insert();
                     break;
                 case "3":
-                    AppEngine.Delete();
+                    HabitLoggerController.Delete();
                     break;
                 case "4":
-                    AppEngine.Update();
+                    HabitLoggerController.Update();
                     break;
                 case "5":
-                    AppEngine.AddNewHabit();
+                    HabitLoggerController.AddNewHabit();
                     break;
 
                 default:
