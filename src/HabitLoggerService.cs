@@ -56,14 +56,19 @@ internal class HabitLoggerService
             var insertCmd = connection.CreateCommand();
             insertCmd.CommandText = $"INSERT INTO logs (HabitId, Date, Quantity) VALUES(@habitId, @date, @quantity)";
 
+            // Convert date to yyyy-MM-dd format
+            DateTime parsedDate = DateTime.ParseExact(date, "dd-MM-yy", CultureInfo.InvariantCulture);
+            string formattedDate = parsedDate.ToString("yyyy-MM-dd");
+
             insertCmd.Parameters.AddWithValue("@habitId", habitId);
-            insertCmd.Parameters.AddWithValue("@date", date);
+            insertCmd.Parameters.AddWithValue("@date", formattedDate);
             insertCmd.Parameters.AddWithValue("@quantity", quantity);
 
             insertCmd.ExecuteNonQuery();
             connection.Close();
         }
     }
+
 
     public void DeleteRecord(int recordId)
     {
@@ -158,4 +163,70 @@ internal class HabitLoggerService
 
         return habits;
     }
+
+    // Method to get total quantity logged for a specific habit in a year
+    public int GetTotalQuantityForHabitInYear(int habitId, int year)
+    {
+        int totalQuantity = 0;
+
+        using (var connection = _dbContext.CreateConnection())
+        {
+            connection.Open();
+            var reportCmd = connection.CreateCommand();
+            reportCmd.CommandText = @"
+            SELECT SUM(Quantity) 
+            FROM logs 
+            WHERE HabitId = @habitId 
+            AND strftime('%Y', Date) = @year";
+
+            reportCmd.Parameters.AddWithValue("@habitId", habitId);
+            reportCmd.Parameters.AddWithValue("@year", year.ToString());
+
+            var result = reportCmd.ExecuteScalar();
+
+            // Check if the result is DBNull
+            if (result != DBNull.Value && result != null)
+            {
+                totalQuantity = Convert.ToInt32(result);
+            }
+
+            connection.Close();
+        }
+
+        return totalQuantity;
+    }
+
+    // Method to get total number of entries for a specific habit in a year
+
+    public int GetTotalEntriesForHabitInYear(int habitId, int year)
+    {
+        int totalEntries = 0;
+
+        using (var connection = _dbContext.CreateConnection())
+        {
+            connection.Open();
+            var reportCmd = connection.CreateCommand();
+            reportCmd.CommandText = @"
+            SELECT COUNT(*) 
+            FROM logs 
+            WHERE HabitId = @habitId 
+            AND strftime('%Y', Date) = @year";
+
+            reportCmd.Parameters.AddWithValue("@habitId", habitId);
+            reportCmd.Parameters.AddWithValue("@year", year.ToString());
+
+            var result = reportCmd.ExecuteScalar();
+
+            // Check if the result is DBNull
+            if (result != DBNull.Value && result != null)
+            {
+                totalEntries = Convert.ToInt32(result);
+            }
+
+            connection.Close();
+        }
+
+        return totalEntries;
+    }
+
 }

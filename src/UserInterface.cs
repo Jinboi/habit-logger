@@ -15,6 +15,7 @@ internal interface UserInterface
             Console.WriteLine("Type 3 to Delete Record.");
             Console.WriteLine("Type 4 to Update Record.");
             Console.WriteLine("Type 5 to Add New Habit.");
+            Console.WriteLine("Type 6 to View Report.");
 
             Console.WriteLine("------------------------------------------------------\n");
 
@@ -41,6 +42,10 @@ internal interface UserInterface
                     break;
                 case "5":
                     HabitLoggerController.AddNewHabit();
+                    break;
+
+                case "6": // Handle report generation
+                    HabitLoggerController.ViewReport();
                     break;
 
                 default:

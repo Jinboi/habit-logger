@@ -87,4 +87,32 @@ internal class HabitLoggerController
         _habitService.AddNewHabit(habitName, unitOfMeasurement);
         Console.WriteLine($"\nHabit '{habitName}' added successfully.");
     }
+
+    internal static void ViewReport()
+    {
+        List<Habit> habits = _habitService.GetAllHabits();
+        Console.WriteLine("\nSelect a habit to view the report:");
+        for (int i = 0; i < habits.Count; i++)
+        {
+            Console.WriteLine($"{i + 1}. {habits[i].Name} ({habits[i].UnitOfMeasurement})");
+        }
+
+        int habitIndex = UserInputHelper.GetNumberInput("\nEnter the number of the habit:") - 1;
+        if (habitIndex < 0 || habitIndex >= habits.Count)
+        {
+            Console.WriteLine("\nInvalid selection.");
+            return;
+        }
+
+        var selectedHabit = habits[habitIndex];
+        int year = UserInputHelper.GetNumberInput("\nEnter the year for the report:");
+
+        int totalEntries = _habitService.GetTotalEntriesForHabitInYear(selectedHabit.Id, year);
+        int totalQuantity = _habitService.GetTotalQuantityForHabitInYear(selectedHabit.Id, year);
+
+        Console.WriteLine($"\nReport for {selectedHabit.Name} in {year}:");
+        Console.WriteLine($"- Total entries: {totalEntries}");
+        Console.WriteLine($"- Total quantity: {totalQuantity} {selectedHabit.UnitOfMeasurement}");
+    }
+
 }
