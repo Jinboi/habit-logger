@@ -5,8 +5,6 @@
 
 </div>
 
-FIX BELOW
-
 Welcome to the HabitLogger App!
 
 This app helps you log and track your habits effectively. You can record various habits, manage your daily progress, and analyze your performance over time.
