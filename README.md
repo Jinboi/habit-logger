@@ -49,9 +49,14 @@ You will notice that seed data has been entered already if you type 1 to view al
 
 ![HabitLogger main menu screen](./img/habitLoggerMainMenu.PNG)
 
+You can type 2 to add a new log of a habit.
+
+![HabitLogger add habit log screen](./img/habitLoggerLogScreen.PNG)
+
 You can type 5 to add a new habit.
 
-![HabitLogger habit log screen](./img/habitLoggerLogScreen.PNG)
+![HabitLogger add habit screen](./img/habitLoggerAddHabit.PNG)
+
 
 You can also generate reports to view habit performance over time:
 
