@@ -9,8 +9,6 @@ FIX BELOW
 
 Welcome to the HabitLogger App!
 
-This app helps you log your  
-
 This app helps you log and track your habits effectively. You can record various habits, manage your daily progress, and analyze your performance over time.
 
 This is the C# Console Project #3.
@@ -47,11 +45,11 @@ This is the initial screen of the app when you start:
 
 ![HabitLogger initial screen](./img/habitLoggerInitialScreen.PNG)
 
-You will be prompted to create or log a habit, and then you'll have a menu to choose your next action:
+You will notice that seed data has been entered already if you type 1 to view all records.
 
 ![HabitLogger main menu screen](./img/habitLoggerMainMenu.PNG)
 
-Once you choose your option, you can log your habit or view your habit history:
+You can type 5 to add a new habit.
 
 ![HabitLogger habit log screen](./img/habitLoggerLogScreen.PNG)
 
@@ -59,17 +57,19 @@ You can also generate reports to view habit performance over time:
 
 ![HabitLogger report screen](./img/habitLoggerReportScreen.PNG)
 
+You can also generate reports to view yearly performance over time:
+
+![HabitLogger report screen](./img/habitLoggerYearlyReportScreen.PNG)
+
 ## Choose an option:
-- **a**: For Addition
-- **s**: For Subtraction
-- **m**: For Multiplication
-- **d**: For Division
-- **p**: For Power
-- **r**: For Square Roots
-- **e**: For 10x
-- **sin**: For Sine
-- **cos**: For Cosine
-- **tan**: For Tangent
+- **0**: TO Close Application
+- **1**: To View All Records
+- **2**: To Insert Record
+- **3**: To Delete Record
+- **4**: To Update Record
+- **5**: To Add New habit 
+- **6**: To View Performanc Report
+- **7**: To View Yearly Report
 
 ## How It Works
 
