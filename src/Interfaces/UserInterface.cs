@@ -1,9 +1,18 @@
-﻿namespace HabitLogger;
+﻿// -------------------------------------------------------------------------------------------------
+// HabitLogger.Interfaces.UserInterfaces
+// -------------------------------------------------------------------------------------------------
+// UserInterface for the application. Calls HabitLoggerServce when user input is entered.
+// -------------------------------------------------------------------------------------------------
+
+using HabitLogger.Services;
+
+namespace HabitLogger.Interfaces;
 internal interface UserInterface
-{   
+{
     static void ViewMenu()
     {
         Console.Clear();
+
         bool closeApp = false;
         while (closeApp == false)
         {
@@ -15,7 +24,8 @@ internal interface UserInterface
             Console.WriteLine("Type 3 to Delete Record.");
             Console.WriteLine("Type 4 to Update Record.");
             Console.WriteLine("Type 5 to Add New Habit.");
-            Console.WriteLine("Type 6 to View Report.");
+            Console.WriteLine("Type 6 to View Performance Report.");
+            Console.WriteLine("Type 7 to View Yearly Report.");
 
             Console.WriteLine("------------------------------------------------------\n");
 
@@ -29,23 +39,25 @@ internal interface UserInterface
                     Environment.Exit(0);
                     break;
                 case "1":
-                    HabitLoggerController.GetAllRecords();
+                    HabitLoggerService.ShowData();
                     break;
                 case "2":
-                    HabitLoggerController.Insert();
+                    HabitLoggerService.Insert();
                     break;
                 case "3":
-                    HabitLoggerController.Delete();
+                    HabitLoggerService.Delete();
                     break;
                 case "4":
-                    HabitLoggerController.Update();
+                    HabitLoggerService.Update();
                     break;
                 case "5":
-                    HabitLoggerController.AddNewHabit();
+                    HabitLoggerService.AddNewHabit();
                     break;
-
-                case "6": // Handle report generation
-                    HabitLoggerController.ViewReport();
+                case "6":
+                    HabitLoggerService.GenerateHabitPerformanceReport();
+                    break;
+                case "7":
+                    HabitLoggerService.GenerateYearlyHabitSummary();
                     break;
 
                 default:

@@ -1,16 +1,26 @@
-﻿using Microsoft.Data.Sqlite;
+﻿// -------------------------------------------------------------------------------------------------
+// HabitLogger.Context.DbContext
+// -------------------------------------------------------------------------------------------------
+// Sets up database source and creates database and seed data if there's no database/seed data.
+// -------------------------------------------------------------------------------------------------
 
-namespace HabitLogger;
+using Microsoft.Data.Sqlite;
+
+namespace HabitLogger.Context;
 public class DbContext
 {
+    #region Fields
+
     private const string connectionString = @"Data Source=HabitLogger.db";
+
+    #endregion
+    #region Methods: public
     public SqliteConnection CreateConnection()
     {
         var connection = new SqliteConnection(connectionString);
         connection.Open();
         return connection;
     }
-
     public void EnsureDatabaseCreated()
     {
         using (var connection = CreateConnection())
@@ -42,6 +52,8 @@ public class DbContext
         }
     }
 
+    #endregion
+    #region Methods: private
     private void SeedData(SqliteConnection connection)
     {
         // Check if there are any habits in the database
@@ -55,29 +67,34 @@ public class DbContext
             // Insert habits
             var habitNames = new[]
             {
-                new { Name = "Drink Water", Unit = "Glasses" },
-                new { Name = "Exercise", Unit = "Minutes" },
-                new { Name = "Read", Unit = "Pages" }
-            };
+            new { Name = "Drink Water", UnitOfMeasurement = "Glasses" },
+            new { Name = "Exercise", UnitOfMeasurement = "Minutes" },
+            new { Name = "Read", UnitOfMeasurement = "Pages" }
+        };
 
             var habitInsertCmd = connection.CreateCommand();
             foreach (var habit in habitNames)
             {
                 habitInsertCmd.CommandText = "INSERT INTO habits (Name, UnitOfMeasurement) VALUES (@name, @unit)";
                 habitInsertCmd.Parameters.AddWithValue("@name", habit.Name);
-                habitInsertCmd.Parameters.AddWithValue("@unit", habit.Unit);
+                habitInsertCmd.Parameters.AddWithValue("@unit", habit.UnitOfMeasurement);
                 habitInsertCmd.ExecuteNonQuery();
                 habitInsertCmd.Parameters.Clear();
             }
 
-            // Retrieve habit ids
-            var habitIdCmd = connection.CreateCommand();
-            habitIdCmd.CommandText = "SELECT Id FROM habits";
-            SqliteDataReader reader = habitIdCmd.ExecuteReader();
-            var habitIds = new List<int>();
-            while (reader.Read())
+            // Retrieve habit data for use in log entries
+            var habitDataCmd = connection.CreateCommand();
+            habitDataCmd.CommandText = "SELECT Id, Name, UnitOfMeasurement FROM habits";
+            SqliteDataReader habitReader = habitDataCmd.ExecuteReader();
+
+            var habits = new List<(int Id, string Name, string Unit)>();
+            while (habitReader.Read())
             {
-                habitIds.Add(reader.GetInt32(0));
+                habits.Add((
+                    Id: habitReader.GetInt32(0),
+                    Name: habitReader.GetString(1),
+                    Unit: habitReader.GetString(2)
+                ));
             }
 
             // Insert random log entries for the habits
@@ -86,17 +103,19 @@ public class DbContext
 
             for (int i = 0; i < 100; i++)
             {
-                int habitId = habitIds[random.Next(habitIds.Count)];
-                string date = DateTime.Today.AddDays(-random.Next(30)).ToString("yyyy-MM-dd");  // Change format to yyyy-MM-dd
+                var habit = habits[random.Next(habits.Count)];
+                string date = DateTime.Today.AddDays(-random.Next(30)).ToString("yyyy-MM-dd");
                 int quantity = random.Next(1, 11);
 
                 logInsertCmd.CommandText = "INSERT INTO logs (HabitId, Date, Quantity) VALUES (@habitId, @date, @quantity)";
-                logInsertCmd.Parameters.AddWithValue("@habitId", habitId);
+                logInsertCmd.Parameters.AddWithValue("@habitId", habit.Id);
                 logInsertCmd.Parameters.AddWithValue("@date", date);
                 logInsertCmd.Parameters.AddWithValue("@quantity", quantity);
                 logInsertCmd.ExecuteNonQuery();
                 logInsertCmd.Parameters.Clear();
-            }   
+            }
         }
     }
+
+    #endregion
 }
