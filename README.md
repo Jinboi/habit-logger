@@ -1,26 +1,25 @@
 <div align="center">
 
-<img src="./img/habitLoggerLogo.png" alt="calculator logo" width="200px" />
+<img src="./img/habitLoggerLogo.png" alt="habitLogger logo" width="200px" />
 <h1>HabitLogger</h1>
 
 </div>
 
-
 FIX BELOW
 
-Welcome to the Calculator App!
+Welcome to the HabitLogger App!
 
-This app helps you solve quick calculations. 
+This app helps you log your  
 
-You can perform addition, subtraction, multiplication, and division and much more advanced calculations!
+This app helps you log and track your habits effectively. You can record various habits, manage your daily progress, and analyze your performance over time.
 
-This is the C# Console Project #2
+This is the C# Console Project #3.
 
 ## Features
 
-- **Advanced Calculations**: Solve difficult calculations such as square roots. 
-- **Calculation Counter**: You can see how many times you've used the calculator.
-- **Calculation Repeater**: You can choose an answer from the list of your latest calculation to do more calculations.
+- **Habit Tracking**: Log your daily habits and monitor your progress.
+- **Custom Habits**: Create your own habits and choose the unit of measurement that suits each one.
+- **Habit Reports**: Generate reports to see how often you've completed a habit or track specific metrics, such as total kilometers logged.
 
 
 ## Getting Started
@@ -34,10 +33,10 @@ This is the C# Console Project #2
 #### Console
 
 1. Clone the repository:
-	- `git clone https://github.com/Jinboi/calculator.git`
+	- `git clone https://github.com/Jinboi/habit-logger.git`
 
 2. Navigate to the project directory:
-	- `cd src\Calculator`
+	- `cd src\\HabitLogger`
 
 3. Run the application using the .NET CLI:
 	- `dotnet run`
@@ -46,13 +45,19 @@ This is the C# Console Project #2
 
 This is the initial screen of the app when you start:
 
-![calculator initial screen](./img/calculatorInitialScreen.PNG)
+![HabitLogger initial screen](./img/habitLoggerInitialScreen.PNG)
 
+You will be prompted to create or log a habit, and then you'll have a menu to choose your next action:
 
-You will then asked to input the first number and you will be given a menu to choose a calculation option:
+![HabitLogger main menu screen](./img/habitLoggerMainMenu.PNG)
 
-![calculator main menu screen](./img/calculatorMainMenu.PNG)
+Once you choose your option, you can log your habit or view your habit history:
 
+![HabitLogger habit log screen](./img/habitLoggerLogScreen.PNG)
+
+You can also generate reports to view habit performance over time:
+
+![HabitLogger report screen](./img/habitLoggerReportScreen.PNG)
 
 ## Choose an option:
 - **a**: For Addition
@@ -66,37 +71,16 @@ You will then asked to input the first number and you will be given a menu to ch
 - **cos**: For Cosine
 - **tan**: For Tangent
 
-Once you choose your option, you will be asked to provide your second number:
-
-![calculator second number screen](./img/calculatorList.PNG)
-
-Then, the calculator application will provide you the answer of the calculation based on you input such as first number, calculation option and your second number:
-
-![calculator second number screen](./img/calculatorList.PNG)
-
-Also, you can perform more calculations using the previous answer. 
-
-![calculator perform more calculations using previous answers](./img/calculatorMoreList.PNG)
-
-Keep in mind that you can press 'c' to clear the list. 
-
-![calculator calculation from previous answer](./img/calculatorCToClearList.PNG)
-
-Finally, you can see press 'n' to end the application:
-
-![calculator end application](./img/calculatorNToExit.PNG)
-
 ## How It Works
 
-- **Menu Navigation**: Follow the provided instructions to input your numbers and choose calculation option.
-- **Calculation Counter**: You can see how many times the calculator was used. 
-- **Answers List**: Your answers are stored in a list. These answers are not stored in a database so it will be cleared once the application is closed. Or, you could clear the list by inputting 'c'. 
+- **Menu Navigation**: Follow the on-screen instructions to log habits, view history, or generate reports.
+- **Customizable Habits**: Create habits that are meaningful to you and track them in a way that makes sense.
+- **Habit Reports**: Get detailed reports on your habits, including frequency and specific metrics.
 
 ## Room for Improvements
 
-- Spectre.console could've been used for better UI.
-- While there's the inputHandler and outputHandler, couldn't you have created models using getters and setters?
-- Implement database so that list doesn't get erased when the application is closed.
+- Consider using Spectre.Console for a more polished UI. 
+- Additional features like reminders and habit streaks could be added.
 
 ## Contributing
 
