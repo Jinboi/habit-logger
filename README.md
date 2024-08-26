@@ -67,7 +67,7 @@ You can also generate reports to view yearly performance over time:
 ![HabitLogger report screen](./img/habitLoggerYearlyReportScreen.PNG)
 
 ## Choose an option:
-- **0**: TO Close Application
+- **0**: To Close Application
 - **1**: To View All Records
 - **2**: To Insert Record
 - **3**: To Delete Record
